@@ -11,8 +11,8 @@ use Cocur\Slugify\Slugify;
 class Property
 {
     const HEAT = [
-        0 => 'electric',
-        1 => 'gaz'
+        0 => 'Electric',
+        1 => 'Gaz'
     ];
     /**
      * @ORM\Id()
