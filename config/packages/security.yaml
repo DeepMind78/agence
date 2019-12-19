@@ -1,22 +1,40 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: null }
+        from_database:
+            entity:
+                class: App\Entity\User
+                property: username
+        # providers permet d'indiquer comment on va recupérer les utilisateurs et les authentifications. A la place de memory, possible de mettre database, ca sera récupéré depuis la BDD.  A la place de username, possible de mettre l'email ou pseudo ... 
+        # in_memory: { memory: null }
     firewalls:
+        # Firewalls permet dee définir les composants qui vont permettre d'authentifier les utilisateurs.
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-            anonymous: lazy
-
+            anonymous: true
+            
+            logout:
+                path: /logout
+                target: /
+            # anonymous : true considére que chaque visisteur entrant est anonyme. 
+            form_login: 
+                check_path: login
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
-
+            
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        # Va permettre de définir les niveaux d'accès à l'application. 
+        - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+
+    encoders:   
+        App\Entity\User:
+            algorithm: bcrypt
+            cost: 12
