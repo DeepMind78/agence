@@ -1,6 +1,7 @@
 <?php 
 namespace App\Controller\Admin;
 
+use App\Entity\Option;
 use App\Entity\Property;
 use App\Form\PropertyType;
 use App\Repository\PropertyRepository;
@@ -20,7 +21,7 @@ class AdminPropertyController extends AbstractController{
     }
 
     /**
-     * @Route ("/admin/all/properties}", name="admin.property.index")
+     * @Route ("/admin/all/properties", name="admin.property.index")
      */
     public function index(){
         $properties = $this->repo->findAll();
@@ -52,9 +53,13 @@ class AdminPropertyController extends AbstractController{
     }
     
     /**
-     * @Route("/admin/{id}", name="admin.property.edit")
+     * @Route("/admin/edit/{id}", name="admin.property.edit")
      */
     public function edit(Property $property, Request $request){
+
+        // $option = new Option;
+        // $property->addOption($option);
+
         $form = $this->createForm(PropertyType::class,$property);
         $form->handleRequest($request);
 
